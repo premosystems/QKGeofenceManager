@@ -42,6 +42,8 @@ typedef enum _QKGeofenceManagerState : int16_t {
 
 + (instancetype)sharedGeofenceManager;
 
+- (void) clearPreviouslyInsideRegionIds;
+
 - (void)reloadGeofences;
 
 @end

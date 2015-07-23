@@ -89,6 +89,13 @@ static NSString *const QKInsideRegionsDefaultsKey = @"qk_inside_regions_defaults
     }
 }
 
+#pragma mark - Clear previouslyInsideRegionIds
+
+- (void) clearPreviouslyInsideRegionIds
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:QKInsideRegionsDefaultsKey];
+}
+
 #pragma mark - Refreshing Geofence Manager
 
 - (void)_QK_reloadGeofences
@@ -97,12 +104,14 @@ static NSString *const QKInsideRegionsDefaultsKey = @"qk_inside_regions_defaults
     [self.locationManager stopUpdatingLocation];
     [self.locationManager stopMonitoringSignificantLocationChanges];
     
+    /*
     if ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusAuthorizedAlways) {
         if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
             [self.locationManager requestAlwaysAuthorization];
             return;
         }
     }
+    */
     
     self.regionsGroupedByDistance = nil;
     self.regionsBeingProcessed = nil;
@@ -462,10 +471,13 @@ static NSString *const QKInsideRegionsDefaultsKey = @"qk_inside_regions_defaults
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
+    [self _QK_reloadGeofences];
+    /*
     if (status == kCLAuthorizationStatusAuthorizedAlways) {
         // begin
         [self _QK_reloadGeofences];
     }
+     */
 }
 
 @end
